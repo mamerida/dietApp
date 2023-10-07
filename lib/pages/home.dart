@@ -1,4 +1,5 @@
 import 'package:fitness/models/category_models.dart';
+import 'package:fitness/models/diet_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -12,14 +13,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<CategoryModel> categories = [];
+  List<DietModel> diets = [];
 
   void _getCategories(){
     categories = CategoryModel.getCategories();
   }
 
+  void _getDiets(){
+    diets = DietModel.getDiets();
+  }
+
+
   @override
   Widget build(BuildContext context){
     _getCategories();
+    _getDiets();
     return Scaffold(
       appBar: Appbar(),
       backgroundColor: Colors.white,
@@ -28,7 +36,60 @@ class _HomePageState extends State<HomePage> {
         children: [
           _searchField(),
           SizedBox(height: 40),
-          _categorySection()
+          _categorySection(),
+          SizedBox(height: 40),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            const Padding(
+                padding: EdgeInsets.only(left: 25),
+                child: Text(
+                  "Recommendation for diet",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600
+                  ),
+                ),
+              ),
+              SizedBox(height: 15),
+              Container(
+                height: 240,
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => SizedBox(width: 25,), 
+                  itemCount: diets.length,
+                  scrollDirection: Axis.horizontal,
+                  padding: EdgeInsets.only(
+                    left: 20,
+                    right: 20
+                  ),
+                  itemBuilder: (context, index){
+                    return Container(
+                      width: 210,
+                      decoration: BoxDecoration(
+                        color: diets[index].boxColor.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(20)
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SvgPicture.asset(diets[index].iconPath),
+                          Text(
+                            diets[index].name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                              fontSize: 16
+                            ),
+                          )
+                        ]
+                        ),
+                    );
+                  }, 
+                ),
+              )
+            ],
+          )
         ],
       )
     );
