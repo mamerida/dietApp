@@ -8,7 +8,23 @@ const HomePage({ Key? key }) : super(key: key);
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hello"),
+        title: const Text(
+          "Breakfast",
+          style: TextStyle(
+            color:Colors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        leading: Container(
+          margin: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(10)
+          ),
+        ),
       ),
     );
   }
